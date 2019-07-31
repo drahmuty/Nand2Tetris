@@ -12,13 +12,13 @@ class Parser():
             return False
 
     def advance(self):
-        next_command = self.file.pop(0).strip()
+        next_command = self.file.pop(0).split('//')[0].strip()
         if next_command:
             self.current_command = next_command
         else:
             self.advance()
 
-    def commandType(self):
+    def command_type(self):
         command = self.current_command[0]
         if command == '@':
             return 'A_COMMAND'
@@ -26,11 +26,22 @@ class Parser():
             return 'C_COMMAND'
         elif command.isdigit():
             return 'C_COMMAND'
+        elif command == '(':
+            return 'LABEL'
         else:
-            return 'other'
+            return 'OTHER'
+
+    def is_symbol(self):
+        if self.current_command[1:].isdigit():
+            return False
+        else:
+            return True
 
     def symbol(self):
-        return self.current_command[1:]
+        if '(' in self.current_command:
+            return self.current_command[1:].split(')')[0]
+        else:
+            return self.current_command[1:]
 
     def dest(self):
         if '=' in self.current_command:
