@@ -87,7 +87,7 @@ def assemble(file):
 			output_array.append(binary_command)
 			print(binary_command)
 
-	# # Write to destination file
+	# Write to destination file
 	with open(output_filename, 'w') as output_file:
 		for t in output_array:
 			output_file.write(t + '\n')
